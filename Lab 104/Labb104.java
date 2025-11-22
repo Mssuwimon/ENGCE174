@@ -1,30 +1,24 @@
-// Source code is decompiled from a .class file using FernFlower decompiler (from Intellij IDEA).
 import java.util.Scanner;
 
 public class Labb104 {
-   public Labb104() {
-   }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-   public static void main(String[] var0) {
-      Scanner var1 = new Scanner(System.in);
-      System.out.println("Pless Enter Score :");
-      int var2 = var1.nextInt();
-      String var3 = "";
-      if (var2 >= 80 && var2 <= 100) {
-         var3 = "A";
-      } else if (var2 >= 70 && var2 <= 79) {
-         var3 = "B";
-      } else if (var2 >= 60 && var2 <= 69) {
-         var3 = "C";
-      } else if (var2 >= 50 && var2 <= 59) {
-         var3 = "D";
-      } else if (var2 >= 0 && var2 <= 49) {
-         var3 = "F";
-      } else {
-         var3 = "Invalid Score";
-      }
+        System.out.println("Enter score:");
+        int score = sc.nextInt();
 
-      System.out.println("Score: " + var3);
-      var1.close();
-   }
+        if (score >= 80) {
+            System.out.println("A");
+        } else if (score >= 70) {
+            System.out.println("B");
+        } else if (score >= 60) {
+            System.out.println("C");
+        } else if (score >= 50) {
+            System.out.println("D");
+        } else if (score >= 0) {
+            System.out.println("F");
+        }
+
+        sc.close();
+    }
 }
