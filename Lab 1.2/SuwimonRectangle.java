@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Hw2 {
+public class SuwimonRectangle { 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
@@ -14,5 +14,7 @@ public class Hw2 {
         double area = width * height;
 
         System.out.println("Area of the rectangle is: " + area);
+
+        sc.close();
     }
 }
