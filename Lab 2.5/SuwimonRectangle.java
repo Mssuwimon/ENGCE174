@@ -4,9 +4,9 @@ class Rectangle {
     double width;
     double height;
 
-    Rectangle(double w, double h) {
-        this.width = w;
-        this.height = h;
+    Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
     }
 
     double getArea() {
@@ -21,12 +21,15 @@ class Rectangle {
 public class SuwimonRectangle {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        double w = sc.nextDouble();
-        double h = sc.nextDouble();
 
-        Rectangle rect = new Rectangle(w, h);
+        double widthInput = sc.nextDouble();
+        double heightInput = sc.nextDouble();
+
+        Rectangle rect = new Rectangle(widthInput, heightInput);
+
         System.out.println(rect.getArea());
         System.out.println(rect.getPerimeter());
+
         sc.close();
     }
 }
