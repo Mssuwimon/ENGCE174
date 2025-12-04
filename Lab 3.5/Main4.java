@@ -1,38 +1,38 @@
 import java.util.Scanner;
 
-// คลาสจัดการการเชื่อมต่อ server
-class ServerManager {
+// คลาสจำลองการเชื่อมต่อกับฐานข้อมูล
+class DatabaseLink {
 
-    private String serverLabel; // เก็บชื่อ server
-    private boolean active;     // สถานะเชื่อมต่อ
+    private String serverName;  // ชื่อ server
+    private boolean linked;     // สถานะเชื่อมต่อ
 
-    // Constructor: กำหนด serverLabel และเริ่มต้น disconnected
-    public ServerManager(String serverLabel) {
-        this.serverLabel = serverLabel;
-        this.active = false;
+    // Constructor: กำหนด serverName และเริ่มต้น disconnected
+    public DatabaseLink(String serverName) {
+        this.serverName = serverName;
+        this.linked = false;
     }
 
-    // Method เช็คสถานะ
-    public boolean isActive() {
-        return active;
+    // เช็คสถานะปัจจุบัน
+    public boolean status() {
+        return linked;
     }
 
-    // Method เชื่อมต่อ server
-    public void connect() {
-        if (active) {
+    // เชื่อมต่อ server
+    public void establish() {
+        if (linked) {
             System.out.println("Already connected.");
         } else {
-            active = true;
-            System.out.println("Connected to " + serverLabel);
+            linked = true;
+            System.out.println("Connected to " + serverName);
         }
     }
 
-    // Method ตัดการเชื่อมต่อ server
-    public void disconnect() {
-        if (!active) {
+    // ตัดการเชื่อมต่อ server
+    public void terminate() {
+        if (!linked) {
             System.out.println("Already disconnected.");
         } else {
-            active = false;
+            linked = false;
             System.out.println("Disconnected.");
         }
     }
@@ -42,20 +42,21 @@ public class Main4 {
     public static void main(String[] args) {
 
         // Scanner ปิดอัตโนมัติ
-        try (Scanner sc = new Scanner(System.in)) {
+        try (Scanner scanner = new Scanner(System.in)) {
 
-            // รับชื่อ server จาก input
-            String inputServer = sc.nextLine();
+            // รับชื่อ server
+            String inputServer = scanner.nextLine();
 
-            // สร้าง object ServerManager
-            ServerManager sm = new ServerManager(inputServer);
+            // สร้าง object DatabaseLink
+            DatabaseLink db = new DatabaseLink(inputServer);
 
-            sm.connect();       // connect
-            sm.disconnect();    // disconnect ครั้งแรก
-            sm.disconnect();    // disconnect ครั้งสอง
+            // เทสต์ตามลำดับโจทย์
+            db.establish();   // connect
+            db.terminate();   // disconnect ครั้งแรก
+            db.terminate();   // disconnect ครั้งสอง
 
             // แสดงสถานะปัจจุบัน
-            System.out.println(sm.isActive());
+            System.out.println(db.status());
         }
     }
 }
