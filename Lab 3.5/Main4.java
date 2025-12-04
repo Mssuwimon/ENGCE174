@@ -4,15 +4,18 @@ class DatabaseConnection {
     private String connectionString;
     private boolean connected;
 
+    // Constructor
     public DatabaseConnection(String connectionString) {
         this.connectionString = connectionString;
         this.connected = false;
     }
 
+    // Check connection status
     public boolean isConnected() {
         return connected;
     }
 
+    // Connect method
     public void connect() {
         if (!connected) {
             connected = true;
@@ -22,6 +25,7 @@ class DatabaseConnection {
         }
     }
 
+    // Disconnect method
     public void disconnect() {
         if (connected) {
             connected = false;
@@ -36,14 +40,23 @@ public class Main4 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // รับชื่อ server จาก input
-        String serverName = sc.nextLine();
-        DatabaseConnection db = new DatabaseConnection(serverName);
+        try {
+            // รับชื่อ server จาก input
+            String serverName = sc.nextLine();
 
-        // เทสต์ตามลำดับ
-        db.connect();          // connect
-        db.disconnect();       // disconnect
-        db.disconnect();       // disconnect อีกครั้ง
-        System.out.println(db.isConnected());  // เช็คสถานะ boolean
+            // สร้าง object DatabaseConnection
+            DatabaseConnection db = new DatabaseConnection(serverName);
+
+            // เทสต์ตามลำดับ
+            db.connect();
+            db.disconnect();
+            db.disconnect();
+
+            // แสดงสถานะปัจจุบัน
+            System.out.println(db.isConnected());
+        } finally {
+            // ปิด Scanner เพื่อป้องกัน resource leak
+            sc.close();
+        }
     }
 }
