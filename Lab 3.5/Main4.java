@@ -1,35 +1,35 @@
 import java.util.Scanner;
 
 // คลาสจำลองการเชื่อมต่อฐานข้อมูล
-class DatabaseConnection {
-    private String connectionString; // เก็บชื่อเซิร์ฟเวอร์
-    private boolean connected;        // สถานะการเชื่อมต่อ
+class DBConnection {
+    private String serverName;  // เก็บชื่อเซิร์ฟเวอร์
+    private boolean isConnected; // สถานะการเชื่อมต่อ
 
-    // Constructor กำหนดชื่อ server และ connected เริ่มต้นเป็น false
-    public DatabaseConnection(String connectionString) {
-        this.connectionString = connectionString;
-        this.connected = false;
+    // Constructor
+    public DBConnection(String serverName) {
+        this.serverName = serverName;
+        this.isConnected = false;
     }
 
     // ตรวจสอบสถานะ
-    public boolean isConnected() {
-        return connected;
+    public boolean status() {
+        return isConnected;
     }
 
-    // เมธอดเชื่อมต่อ
+    // เชื่อมต่อ
     public void connect() {
-        if (!connected) {
-            connected = true;
-            System.out.println("Connected to " + connectionString);
+        if (!isConnected) {
+            isConnected = true;
+            System.out.println("Connected to " + serverName);
         } else {
             System.out.println("Already connected.");
         }
     }
 
-    // เมธอดตัดการเชื่อมต่อ
+    // ตัดการเชื่อมต่อ
     public void disconnect() {
-        if (connected) {
-            connected = false;
+        if (isConnected) {
+            isConnected = false;
             System.out.println("Disconnected");
         } else {
             System.out.println("Already disconnected.");
@@ -39,19 +39,21 @@ class DatabaseConnection {
 
 public class Main4 {
     public static void main(String[] args) {
-        try (Scanner scanner = new Scanner(System.in)) {
-            System.out.print("Enter database server name: ");
-            String dbServer = scanner.nextLine();
+        // Scanner ปิดอัตโนมัติ
+        try (Scanner input = new Scanner(System.in)) {
 
-            DatabaseConnection dbConn = new DatabaseConnection(dbServer);
+            System.out.print("Enter database server name: ");
+            String dbServer = input.nextLine();
+
+            DBConnection db = new DBConnection(dbServer);
 
             // ทดลองเชื่อมต่อและตัดการเชื่อมต่อ
-            dbConn.connect();      // connect ครั้งแรก
-            dbConn.disconnect();   // disconnect ครั้งแรก
-            dbConn.disconnect();   // disconnect ครั้งสอง
+            db.connect();      // connect ครั้งแรก
+            db.disconnect();   // disconnect ครั้งแรก
+            db.disconnect();   // disconnect ครั้งสอง
 
             // แสดงสถานะปัจจุบัน
-            System.out.println("Connected status: " + dbConn.isConnected());
+            System.out.println("Connected status: " + db.status());
         }
     }
 }
