@@ -1,60 +1,63 @@
 import java.util.Scanner;
 
-class DatabaseConnection {
-    private String connectionString;
-    private boolean connected;
+class ServerConnection {
+    private String host;
+    private boolean active;
 
-    // Constructor
-    public DatabaseConnection(String connectionString) {
-        this.connectionString = connectionString;
-        this.connected = false;
+    public ServerConnection(String host) {
+        this.host = host;
+        this.active = false;
     }
 
-    // Check connection status
-    public boolean isConnected() {
-        return connected;
+    public boolean status() {
+        return active;
     }
 
-    // Connect method
     public void connect() {
-        if (!connected) {
-            connected = true;
-            System.out.println("Connected to " + connectionString);
-        } else {
+        if (active) {
             System.out.println("Already connected.");
+        } else {
+            active = true;
+            System.out.println("Connected to " + host);
         }
     }
 
-    // Disconnect method
     public void disconnect() {
-        if (connected) {
-            connected = false;
-            System.out.println("Disconnected.");
-        } else {
+        if (!active) {
             System.out.println("Already disconnected.");
+        } else {
+            active = false;
+            System.out.println("Disconnected.");
         }
     }
 }
 
 public class Main4 {
     public static void main(String[] args) {
-        // ใช้ try-with-resources ปิด Scanner อัตโนมัติ
+
         try (Scanner sc = new Scanner(System.in)) {
 
-            // รับชื่อ server จาก input
-            String serverName = sc.nextLine();
+            // จำนวน Test Case
+            int t = 3;
 
-            // สร้าง object DatabaseConnection
-            DatabaseConnection db = new DatabaseConnection(serverName);
+            for (int i = 1; i <= t; i++) {
+                // รับชื่อ server
+                String serverName = sc.nextLine();
 
-            // เทสต์ตามลำดับ
-            db.connect();
-            db.disconnect();
-            db.disconnect();
+                // สร้าง object
+                ServerConnection conn = new ServerConnection(serverName);
 
-            // แสดงสถานะปัจจุบัน
-            boolean status = db.isConnected();
-            System.out.println(status);
+                // เทสต์ตามโจทย์
+                conn.connect();
+                conn.disconnect();
+                conn.disconnect();
+
+                // แสดงสถานะปัจจุบัน
+                System.out.println(conn.status());
+
+                
+                System.out.println();
+            }
         }
     }
 }
