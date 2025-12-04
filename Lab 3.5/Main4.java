@@ -38,9 +38,9 @@ class DatabaseConnection {
 
 public class Main4 {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        // ใช้ try-with-resources ปิด Scanner อัตโนมัติ
+        try (Scanner sc = new Scanner(System.in)) {
 
-        try {
             // รับชื่อ server จาก input
             String serverName = sc.nextLine();
 
@@ -53,10 +53,8 @@ public class Main4 {
             db.disconnect();
 
             // แสดงสถานะปัจจุบัน
-            System.out.println(db.isConnected());
-        } finally {
-            // ปิด Scanner เพื่อป้องกัน resource leak
-            sc.close();
+            boolean status = db.isConnected();
+            System.out.println(status);
         }
     }
 }
