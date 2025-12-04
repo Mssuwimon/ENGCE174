@@ -1,62 +1,57 @@
 import java.util.Scanner;
 
-// คลาสจำลองการเชื่อมต่อกับฐานข้อมูล
-class DatabaseLink {
+// คลาสจำลองการเชื่อมต่อฐานข้อมูล
+class DatabaseConnection {
+    private String connectionString; // เก็บชื่อเซิร์ฟเวอร์
+    private boolean connected;        // สถานะการเชื่อมต่อ
 
-    private String serverName;  // ชื่อ server
-    private boolean linked;     // สถานะเชื่อมต่อ
-
-    // Constructor: กำหนด serverName และเริ่มต้น disconnected
-    public DatabaseLink(String serverName) {
-        this.serverName = serverName;
-        this.linked = false;
+    // Constructor กำหนดชื่อ server และ connected เริ่มต้นเป็น false
+    public DatabaseConnection(String connectionString) {
+        this.connectionString = connectionString;
+        this.connected = false;
     }
 
-    // เช็คสถานะปัจจุบัน
-    public boolean status() {
-        return linked;
+    // ตรวจสอบสถานะ
+    public boolean isConnected() {
+        return connected;
     }
 
-    // เชื่อมต่อ server
-    public void establish() {
-        if (linked) {
-            System.out.println("Already connected.");
+    // เมธอดเชื่อมต่อ
+    public void connect() {
+        if (!connected) {
+            connected = true;
+            System.out.println("Connected to " + connectionString);
         } else {
-            linked = true;
-            System.out.println("Connected to " + serverName);
+            System.out.println("Already connected.");
         }
     }
 
-    // ตัดการเชื่อมต่อ server
-    public void terminate() {
-        if (!linked) {
-            System.out.println("Already disconnected.");
+    // เมธอดตัดการเชื่อมต่อ
+    public void disconnect() {
+        if (connected) {
+            connected = false;
+            System.out.println("Disconnected");
         } else {
-            linked = false;
-            System.out.println("Disconnected.");
+            System.out.println("Already disconnected.");
         }
     }
 }
 
 public class Main4 {
     public static void main(String[] args) {
-
-        // Scanner ปิดอัตโนมัติ
         try (Scanner scanner = new Scanner(System.in)) {
+            System.out.print("Enter database server name: ");
+            String dbServer = scanner.nextLine();
 
-            // รับชื่อ server
-            String inputServer = scanner.nextLine();
+            DatabaseConnection dbConn = new DatabaseConnection(dbServer);
 
-            // สร้าง object DatabaseLink
-            DatabaseLink db = new DatabaseLink(inputServer);
-
-            // เทสต์ตามลำดับโจทย์
-            db.establish();   // connect
-            db.terminate();   // disconnect ครั้งแรก
-            db.terminate();   // disconnect ครั้งสอง
+            // ทดลองเชื่อมต่อและตัดการเชื่อมต่อ
+            dbConn.connect();      // connect ครั้งแรก
+            dbConn.disconnect();   // disconnect ครั้งแรก
+            dbConn.disconnect();   // disconnect ครั้งสอง
 
             // แสดงสถานะปัจจุบัน
-            System.out.println(db.status());
+            System.out.println("Connected status: " + dbConn.isConnected());
         }
     }
 }
