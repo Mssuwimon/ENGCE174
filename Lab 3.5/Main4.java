@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 // คลาสจำลองการเชื่อมต่อฐานข้อมูล
 class DBConnection {
-    private String serverName;  // เก็บชื่อเซิร์ฟเวอร์
+    private String serverName;   // เก็บชื่อเซิร์ฟเวอร์
     private boolean isConnected; // สถานะการเชื่อมต่อ
 
     // Constructor
@@ -48,9 +48,9 @@ public class Main4 {
             DBConnection db = new DBConnection(dbServer);
 
             // ทดลองเชื่อมต่อและตัดการเชื่อมต่อ
-            db.connect();      // connect ครั้งแรก
-            db.disconnect();   // disconnect ครั้งแรก
-            db.disconnect();   // disconnect ครั้งสอง
+            db.connect();       // connect ครั้งแรก
+            db.disconnect();    // disconnect ครั้งแรก
+            db.disconnect();    // disconnect ครั้งสอง
 
             // แสดงสถานะปัจจุบัน
             System.out.println("Connected status: " + db.status());
