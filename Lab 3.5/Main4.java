@@ -1,27 +1,33 @@
 import java.util.Scanner;
 
-class ServerConnection {
-    private String host;
-    private boolean active;
+// คลาสจัดการการเชื่อมต่อ server
+class ServerManager {
 
-    public ServerConnection(String host) {
-        this.host = host;
+    private String serverLabel; // เก็บชื่อ server
+    private boolean active;     // สถานะเชื่อมต่อ
+
+    // Constructor: กำหนด serverLabel และเริ่มต้น disconnected
+    public ServerManager(String serverLabel) {
+        this.serverLabel = serverLabel;
         this.active = false;
     }
 
-    public boolean status() {
+    // Method เช็คสถานะ
+    public boolean isActive() {
         return active;
     }
 
+    // Method เชื่อมต่อ server
     public void connect() {
         if (active) {
             System.out.println("Already connected.");
         } else {
             active = true;
-            System.out.println("Connected to " + host);
+            System.out.println("Connected to " + serverLabel);
         }
     }
 
+    // Method ตัดการเชื่อมต่อ server
     public void disconnect() {
         if (!active) {
             System.out.println("Already disconnected.");
@@ -35,29 +41,21 @@ class ServerConnection {
 public class Main4 {
     public static void main(String[] args) {
 
+        // Scanner ปิดอัตโนมัติ
         try (Scanner sc = new Scanner(System.in)) {
 
-            // จำนวน Test Case
-            int t = 3;
+            // รับชื่อ server จาก input
+            String inputServer = sc.nextLine();
 
-            for (int i = 1; i <= t; i++) {
-                // รับชื่อ server
-                String serverName = sc.nextLine();
+            // สร้าง object ServerManager
+            ServerManager sm = new ServerManager(inputServer);
 
-                // สร้าง object
-                ServerConnection conn = new ServerConnection(serverName);
+            sm.connect();       // connect
+            sm.disconnect();    // disconnect ครั้งแรก
+            sm.disconnect();    // disconnect ครั้งสอง
 
-                // เทสต์ตามโจทย์
-                conn.connect();
-                conn.disconnect();
-                conn.disconnect();
-
-                // แสดงสถานะปัจจุบัน
-                System.out.println(conn.status());
-
-                
-                System.out.println();
-            }
+            // แสดงสถานะปัจจุบัน
+            System.out.println(sm.isActive());
         }
     }
 }
