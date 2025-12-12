@@ -25,6 +25,8 @@ class Car {
 public class SuwimonCar {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+
+        System.out.print(""); // ทำให้ไม่มีช่องว่าง/format issue
         String model = sc.nextLine();
         int year = sc.nextInt();
         int newYear = sc.nextInt();
@@ -34,6 +36,7 @@ public class SuwimonCar {
 
         System.out.println("Model: " + car.getModel());
         System.out.println("Year: " + car.getYear());
+
         sc.close();
     }
 }

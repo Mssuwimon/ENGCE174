@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
 class BankAccount {
-    String ownerName;
-    double balance;
+    private String ownerName;
+    private double balance;
 
-    BankAccount(String owner, double initialBalance) {
-        this.ownerName = owner;
+    BankAccount(String ownerName, double initialBalance) {
+        this.ownerName = ownerName;
         this.balance = initialBalance;
     }
 
@@ -26,15 +26,16 @@ class BankAccount {
 public class SuwimonBank2 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String owner = sc.nextLine();
-        double initial = sc.nextDouble();
-        double w1 = sc.nextDouble();
-        double w2 = sc.nextDouble();
+        String ownerName = sc.nextLine();
+        double initialBalance = sc.nextDouble();
+        double withdraw1 = sc.nextDouble();
+        double withdraw2 = sc.nextDouble();
 
-        BankAccount acc = new BankAccount(owner, initial);
-        acc.withdraw(w1);
-        acc.withdraw(w2);
-        acc.displayBalance();
+        BankAccount account = new BankAccount(ownerName, initialBalance);
+        account.withdraw(withdraw1);
+        account.withdraw(withdraw2);
+        account.displayBalance();
+
         sc.close();
     }
 }

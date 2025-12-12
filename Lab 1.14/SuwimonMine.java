@@ -1,78 +1,92 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class SuwimonMine {
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
+        try {
+            int numRows = inputInt(scanner, "Enter number of rows: ");
+            int numCols = inputInt(scanner, "Enter number of columns: ");
 
-        int r = inputInt(sc, "Enter number of rows: ");
-        int c = inputInt(sc, "Enter number of columns: ");
+            char[][] mineBoard = getBoard(scanner, numRows, numCols);
 
-        char[][] board = getBoard(sc, r, c);
+            int targetRow = inputInt(scanner, "Enter target row (0-indexed): ");
+            int targetCol = inputInt(scanner, "Enter target column (0-indexed): ");
 
-        int tr = inputInt(sc, "Enter target row (0-indexed): ");
-        int tc = inputInt(sc, "Enter target column (0-indexed): ");
+            if (targetRow < 0 || targetRow >= numRows || targetCol < 0 || targetCol >= numCols) {
+                System.out.println("Error: Target coordinates out of bounds.");
+            } else {
+                showResult(mineBoard, targetRow, targetCol);
+            }
 
-        showResult(board, tr, tc);
-
-        sc.close();
+        } catch (InputMismatchException e) {
+            System.out.println("Error: Please enter valid integers.");
+        } finally {
+            scanner.close();
+        }
     }
 
-    private static int inputInt(Scanner sc, String msg) {
-        System.out.print(msg);
-        return sc.nextInt();
+    private static int inputInt(Scanner scanner, String prompt) {
+        System.out.print(prompt);
+        return scanner.nextInt();
     }
 
-    private static char[][] getBoard(Scanner sc, int r, int c) {
-        char[][] board = new char[r][c];
-        sc.nextLine(); // consume newline
+    private static char[][] getBoard(Scanner scanner, int rows, int cols) {
+        char[][] board = new char[rows][cols];
+        scanner.nextLine();
 
         System.out.println("Enter the map row by row (* for mine, . for empty):");
 
-        for (int i = 0; i < r; i++) {
+        for (int r = 0; r < rows; r++) {
             String line = "";
-            while (line.length() != c) {
-                line = sc.nextLine();
-                if (line.length() != c) {
-                    System.out.println("Invalid length! Please enter exactly " + c + " characters.");
+            while (line.length() != cols) {
+                line = scanner.nextLine();
+                if (line.length() != cols) {
+                    System.out.println("Invalid length! Please enter exactly " + cols + " characters.");
                 }
             }
-            for (int j = 0; j < c; j++) {
-                board[i][j] = line.charAt(j);
+            for (int c = 0; c < cols; c++) {
+                char ch = line.charAt(c);
+                if (ch != '*' && ch != '.') {
+                    System.out.println("Invalid character detected! Use '*' or '.' only.");
+                    c = -1;
+                    line = "";
+                } else {
+                    board[r][c] = ch;
+                }
             }
         }
-
         return board;
     }
 
-    private static void showResult(char[][] board, int r, int c) {
-        if (board[r][c] == '*') {
+    private static void showResult(char[][] board, int row, int col) {
+        if (board[row][col] == '*') {
             System.out.println("Mine");
         } else {
-            int adj = countMines(board, r, c);
-            System.out.println(adj);
+            int adjacentMines = countAdjacentMines(board, row, col);
+            System.out.println(adjacentMines);
         }
     }
 
-    private static int countMines(char[][] board, int r, int c) {
+    private static int countAdjacentMines(char[][] board, int row, int col) {
         int count = 0;
-        int[][] dirs = {
+        int[][] directions = {
             {-1, -1}, {-1, 0}, {-1, 1},
-            {0, -1},           {0, 1},
-            {1, -1}, {1, 0}, {1, 1}
+            { 0, -1},          { 0, 1},
+            { 1, -1}, { 1, 0}, { 1, 1}
         };
 
-        for (int[] d : dirs) {
-            int nr = r + d[0];
-            int nc = c + d[1];
+        for (int[] dir : directions) {
+            int newRow = row + dir[0];
+            int newCol = col + dir[1];
 
-            if (nr >= 0 && nr < board.length && nc >= 0 && nc < board[0].length) {
-                if (board[nr][nc] == '*') {
+            if (newRow >= 0 && newRow < board.length && newCol >= 0 && newCol < board[0].length) {
+                if (board[newRow][newCol] == '*') {
                     count++;
                 }
             }
         }
-
         return count;
     }
 }
