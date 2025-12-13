@@ -8,7 +8,8 @@ class LicenseManager {
     public static void setMax(int max) {
         if (max < 0) {
             System.out.println("Invalid max value.");
-        } else if (max < usedLicenses) {
+        } 
+        else if (max < usedLicenses) {
             System.out.println("Cannot set max lower than current usage.");
         } else {
             maxLicenses = max;
@@ -32,6 +33,7 @@ class LicenseManager {
             usedLicenses--;
             System.out.println("Check-in successful.");
         } else {
+           
             System.out.println("Nothing to check-in.");
         }
     }
@@ -47,22 +49,28 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
+        
+        
+        if (sc.hasNextLine()) {
+             sc.nextLine(); 
+        }
 
-        int n = Integer.parseInt(sc.nextLine());
-        int processed = 0;
-
-        // อ่านอย่างน้อย n คำสั่ง แต่ถ้ายังมี input ต่อ ให้อ่านต่อ
-        while (processed < n || sc.hasNextLine()) {
-
-            if (!sc.hasNextLine()) break;
+        
+        while (sc.hasNextLine()) {
 
             String command = sc.nextLine().trim();
-            if (command.isEmpty()) break;
+            if (command.isEmpty()) continue; 
 
             switch (command) {
                 case "SET":
-                    int max = Integer.parseInt(sc.nextLine());
-                    LicenseManager.setMax(max);
+                    if (sc.hasNextLine()) {
+                        try {
+                            int max = Integer.parseInt(sc.nextLine().trim());
+                            LicenseManager.setMax(max);
+                        } catch (NumberFormatException e) {
+                            
+                        }
+                    }
                     break;
 
                 case "CHECKOUT":
@@ -77,8 +85,6 @@ public class Main {
                     LicenseManager.displayStatus();
                     break;
             }
-
-            processed++;
         }
 
         sc.close();
