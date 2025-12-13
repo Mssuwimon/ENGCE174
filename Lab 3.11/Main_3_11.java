@@ -1,10 +1,6 @@
 import java.util.Scanner;
 
-/*
- * Lab 3.11
- * Simple configuration command processor
- * Supports: SHOW, SET_URL, SET MAX
- */
+
 public class Main_3_11 {
 
     // ค่าเริ่มต้นของระบบ
