@@ -1,163 +1,112 @@
 import java.util.Scanner;
 
-
+/*
+ * Lab 3.11
+ * Command-based configuration system
+ */
 public class Main_3_11 {
 
-    // ค่าเริ่มต้นของระบบ
-    private static String url = "default.server.com";
-    private static int max = 10;
+    // System configuration (default values)
+    private static String serverUrl = "default.server.com";
+    private static int maxConnections = 10;
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
-        // ทำงานจนกว่าจะไม่มี input หรือบรรทัดว่าง
-        while (true) {
-            if (!sc.hasNextLine()) {
-                break;
-            }
-
-            String line = sc.nextLine();
-            if (line.isEmpty()) {
-                break;
-            }
-
-            int count = parseCount(line);
-            if (count <= 0) {
-
-public class Main_3_11 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        String url = "default.server.com";
-        int max = 10;
-
-        while (true) {
-            if (!sc.hasNextLine()) break;
-            String line = sc.nextLine();
-            if (line.isEmpty()) break;
-
-            int count;
-            try {
-                count = Integer.parseInt(line);
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid count.");
-                continue;
-            }
-
-            if (count <= 0) {
-                System.out.println("Invalid count.");
-                // ข้าม input ถัดไปตามจำนวน count ที่ไม่ถูกต้อง
-                for (int j = 0; j < Math.abs(count); j++) {
-                    if (sc.hasNextLine()) sc.nextLine();
-                }
-                continue;
-            }
-
-            for (int i = 0; i < count; i++) {
-                if (!sc.hasNextLine()) break;
-                String command = sc.nextLine();
-
-                if (command.equalsIgnoreCase("SHOW")) {
-                    System.out.println("URL: " + url);
-                    System.out.println("MAX: " + max);
-                } else if (command.equalsIgnoreCase("SET_URL")) {
-                    if (i + 1 < count && sc.hasNextLine()) {
-                        String newUrl = sc.nextLine();
-                        url = newUrl;
-                    }
-                } else if (command.equalsIgnoreCase("SET MAX") || command.equalsIgnoreCase("SET_MAX")) {
-                    if (i + 1 < count && sc.hasNextLine()) {
-                        String val = sc.nextLine();
-                        try {
-                            int newMax = Integer.parseInt(val);
-                            if (newMax > 0) {
-                                max = newMax;
-                                System.out.println("MAX: " + max);
-                            } else {
-                                System.out.println("Invalid count.");
-                            }
-                        } catch (NumberFormatException e) {
-                            System.out.println("Invalid count.");
-                        }
-                    }
-                }
-            }
+        // Read command count
+        if (!scanner.hasNextLine()) {
+            scanner.close();
+            return;
         }
 
-        sc.close();
+        String inputLine = scanner.nextLine();
+        int commandCount = parseCommandCount(inputLine);
+
+        if (commandCount <= 0) {
+            System.out.println("Invalid count.");
+            scanner.close();
+            return;
+        }
+
+        // Process commands
+        processCommands(scanner, commandCount);
+
+        scanner.close();
     }
 
-
     /*
-     * แปลงค่าจำนวนคำสั่ง
-     * แยก method เพื่อให้ main อ่านง่าย
+     * Convert input to integer command count
      */
-    private static int parseCount(String input) {
+    private static int parseCommandCount(String input) {
         try {
             return Integer.parseInt(input);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException exception) {
             return -1;
         }
     }
 
     /*
-     * ประมวลผลคำสั่งตามจำนวนที่ระบุ
+     * Execute commands based on count
      */
-    private static void processCommands(Scanner sc, int count) {
-        for (int i = 0; i < count; i++) {
-            if (!sc.hasNextLine()) {
+    private static void processCommands(Scanner scanner, int commandCount) {
+        for (int index = 0; index < commandCount; index++) {
+
+            if (!scanner.hasNextLine()) {
                 return;
             }
 
-            String command = sc.nextLine();
+            String command = scanner.nextLine();
 
             if (command.equalsIgnoreCase("SHOW")) {
-                showConfig();
-            } 
+                showStatus();
+            }
             else if (command.equalsIgnoreCase("SET_URL")) {
-                setUrl(sc);
-            } 
-            else if (command.equalsIgnoreCase("SET MAX") || command.equalsIgnoreCase("SET_MAX")) {
-                setMax(sc);
+                updateUrl(scanner);
+            }
+            else if (command.equalsIgnoreCase("SET_MAX")) {
+                updateMaxConnections(scanner);
             }
         }
     }
 
     /*
-     * แสดงค่าปัจจุบันของระบบ
+     * Display current configuration
      */
-    private static void showConfig() {
-        System.out.println("URL: " + url);
-        System.out.println("MAX: " + max);
+    private static void showStatus() {
+        System.out.println("URL: " + serverUrl);
+        System.out.println("MAX: " + maxConnections);
     }
 
     /*
-     * ตั้งค่า URL ใหม่
+     * Update server URL
      */
-    private static void setUrl(Scanner sc) {
-        if (sc.hasNextLine()) {
-            url = sc.nextLine();
+    private static void updateUrl(Scanner scanner) {
+        if (scanner.hasNextLine()) {
+            serverUrl = scanner.nextLine();
         }
     }
 
     /*
-     * ตั้งค่า MAX ใหม่ พร้อมตรวจสอบความถูกต้อง
+     * Update maximum connections with validation
      */
-    private static void setMax(Scanner sc) {
-        if (!sc.hasNextLine()) {
+    private static void updateMaxConnections(Scanner scanner) {
+        if (!scanner.hasNextLine()) {
             return;
         }
 
-        String value = sc.nextLine();
+        String value = scanner.nextLine();
+
         try {
             int newMax = Integer.parseInt(value);
+
             if (newMax > 0) {
-                max = newMax;
-                System.out.println("MAX: " + max);
+                maxConnections = newMax;
+                System.out.println("Max connections set.");
             } else {
                 System.out.println("Invalid count.");
             }
-        } catch (NumberFormatException e) {
+
+        } catch (NumberFormatException exception) {
             System.out.println("Invalid count.");
         }
     }
