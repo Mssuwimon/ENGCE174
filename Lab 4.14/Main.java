@@ -1,31 +1,34 @@
 import java.util.Scanner;
 
-// คลาส ScoreBoard
 class ScoreBoard {
-    private final String gameName; // ชื่อเกม (Immutable)
-    private final int[] scores;    // คะแนน (Array) 
+    private final String gameTitle;
+    private final int[] scoreData;
 
-    // Constructor หลัก (Shallow Copy)
-    public ScoreBoard(String gameName, int[] scores) {
-        this.gameName = gameName;
-        this.scores = scores; // Shallow copy: แค่ reference ไม่สร้าง array ใหม่
+    // Shallow copy
+    public ScoreBoard(String gameTitle, int[] scoreData) {
+        this.gameTitle = gameTitle;
+        this.scoreData = scoreData;
     }
 
-    // Copy Constructor (Deep Copy)
+    // Deep copy
     public ScoreBoard(ScoreBoard other) {
-        this.gameName = other.gameName;
-        this.scores = new int[other.scores.length]; // สร้าง array ใหม่
-        for (int i = 0; i < other.scores.length; i++) {
-            this.scores[i] = other.scores[i]; // คัดลอกค่าทีละตัว
+        this.gameTitle = other.gameTitle;
+        this.scoreData = new int[other.scoreData.length];
+
+        for (int i = 0; i < other.scoreData.length; i++) {
+            this.scoreData[i] = other.scoreData[i];
         }
     }
 
-    // Method แสดงผล
     public void displayScores() {
-        System.out.print(this.gameName + ": ");
-        for (int i = 0; i < scores.length; i++) {
-            System.out.print(scores[i]);
-            if (i != scores.length - 1) System.out.print(", ");
+        System.out.print(gameTitle + ": ");
+
+        for (int i = 0; i < scoreData.length; i++) {
+            System.out.print(scoreData[i]);
+
+            if (i < scoreData.length - 1) {
+                System.out.print(", ");
+            }
         }
         System.out.println();
     }
@@ -33,24 +36,34 @@ class ScoreBoard {
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-        String gameName = scanner.nextLine(); // รับชื่อเกม
+        if (!sc.hasNextLine()) {
+            return;
+        }
+        String gameName = sc.nextLine();
 
-        int[] originalScores = new int[3];
+        int[] scores = new int[3];
         for (int i = 0; i < 3; i++) {
-            originalScores[i] = scanner.nextInt(); // คะแนนเริ่มต้น
+            if (sc.hasNextInt()) {
+                scores[i] = sc.nextInt();
+            }
         }
 
-        ScoreBoard sb1 = new ScoreBoard(gameName, originalScores); // Shallow Copy
-        ScoreBoard sb2 = new ScoreBoard(sb1); // Deep Copy
+        // Shallow copy
+        ScoreBoard sb1 = new ScoreBoard(gameName, scores);
 
-        int modifiedScore = scanner.nextInt(); // คะแนนใหม่ที่แก้ไข array ต้นฉบับ
-        originalScores[0] = modifiedScore;
+        // Deep copy
+        ScoreBoard sb2 = new ScoreBoard(sb1);
 
-        sb1.displayScores(); // Shallow Copy: จะเห็นการเปลี่ยนแปลง
-        sb2.displayScores(); // Deep Copy: จะไม่เปลี่ยนแปลง
+        // เปลี่ยนค่าจาก array ต้นทาง
+        if (sc.hasNextInt()) {
+            scores[0] = sc.nextInt();
+        }
 
-        scanner.close();
+        sb1.displayScores();
+        sb2.displayScores();
+
+        sc.close();
     }
 }
