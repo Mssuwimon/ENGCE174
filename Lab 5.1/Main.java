@@ -5,15 +5,16 @@ class Animal {
     protected String name;
     protected int age;
 
-    // แสดงชื่อและอายุของสัตว์
     public void displayInfo() {
-        System.out.println("Name: " + name + ", Age: " + age);
+        System.out.print("Name: ");
+        System.out.print(name);
+        System.out.print(", Age: ");
+        System.out.println(age);
     }
 }
 
 class Dog extends Animal {
 
-    // แสดงเสียงร้องของสุนัข
     public void makeSound() {
         System.out.println("Woof! Woof!");
     }
@@ -22,19 +23,22 @@ class Dog extends Animal {
 public class Main {
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
 
-        Dog dog = new Dog();
+        Dog d = new Dog();
 
-        dog.name = sc.nextLine();
-        dog.age = sc.nextInt();
+        // อ่านข้อมูลจากคีย์บอร์ด
+        String tempName = input.nextLine();
+        int tempAge = input.nextInt();
 
-        // เรียกเสียงร้องก่อน
-        dog.makeSound();
+        // กำหนดค่าให้ object
+        d.name = tempName;
+        d.age = tempAge;
 
-        // แล้วค่อยแสดงข้อมูล
-        dog.displayInfo();
+        // แสดงผลตามลำดับ
+        d.makeSound();
+        d.displayInfo();
 
-        sc.close();
+        input.close();
     }
 }
