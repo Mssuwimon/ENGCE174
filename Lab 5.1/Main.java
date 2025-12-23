@@ -1,38 +1,19 @@
 import java.util.Scanner;
 
-// Superclass แทนสัตว์ทั่วไป
 class Animal {
 
     protected String name;
     protected int age;
 
-    // Constructor ใช้กำหนดค่าเริ่มต้นให้สัตว์
-    public Animal(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-
-    // เมธอดแสดงข้อมูลพื้นฐานของสัตว์
+    // แสดงชื่อและอายุของสัตว์
     public void displayInfo() {
         System.out.println("Name: " + name + ", Age: " + age);
     }
-
-    // เมธอดเสียงของสัตว์ (จะถูก override)
-    public void makeSound() {
-        System.out.println("I am an animal.");
-    }
 }
 
-// Subclass Dog สืบทอดคุณสมบัติจาก Animal
 class Dog extends Animal {
 
-    // Constructor ของ Dog เรียกใช้ constructor ของ Animal
-    public Dog(String name, int age) {
-        super(name, age);
-    }
-
-    // Override เมธอด makeSound เพื่อให้เหมาะกับสุนัข
-    @Override
+    // แสดงเสียงร้องของสุนัข
     public void makeSound() {
         System.out.println("Woof! Woof!");
     }
@@ -43,18 +24,16 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
 
-        // รับค่าชื่อและอายุจากผู้ใช้
-        String name = sc.nextLine();
-        int age = sc.nextInt();
+        Dog dog = new Dog();
 
-        // สร้างออบเจ็กต์ Dog โดยใช้ constructor
-        Dog myDog = new Dog(name, age);
+        dog.name = sc.nextLine();
+        dog.age = sc.nextInt();
 
-        // เรียกใช้เมธอดที่ถูก override
-        myDog.makeSound();
+        // เรียกเสียงร้องก่อน
+        dog.makeSound();
 
-        // เรียกใช้เมธอดที่สืบทอดมาจาก Animal
-        myDog.displayInfo();
+        // แล้วค่อยแสดงข้อมูล
+        dog.displayInfo();
 
         sc.close();
     }
