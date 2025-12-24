@@ -1,64 +1,48 @@
 import java.util.Scanner;
 
-// Superclass: Animal
+// Superclass
 class Animal {
-
-    // Attribute ที่ให้ subclass เข้าถึงได้
+    // Attributes ที่ให้ subclass เข้าถึงได้
     protected String name;
     protected int age;
 
-    // Constructor เริ่มต้น
-    // ใช้เพื่อสร้าง object Animal โดยกำหนดค่าเริ่มต้น
-    public Animal() {
-        this.name = "";
-        this.age = 0;
-    }
-
-    // Method สำหรับกำหนดข้อมูลชื่อและอายุให้กับสัตว์
-    public void setInfo(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-
-    // Method สำหรับแสดงข้อมูลของสัตว์
+    // แสดงข้อมูลสัตว์
     public void displayInfo() {
-        System.out.println("Name: " + name);
-        System.out.println("Age: " + age);
+        System.out.println("Name: " + name + ", Age: " + age);
     }
 }
 
-// Subclass: Dog สืบทอดมาจาก Animal
+// Subclass
 class Dog extends Animal {
 
-    // Method แสดงเสียงร้องของสุนัข
+    // เมธอดแสดงเสียงของสุนัข
     public void makeSound() {
         System.out.println("Woof! Woof!");
     }
 }
 
-// Main class สำหรับทดสอบการทำงานของโปรแกรม
+// Main class
 public class Main {
-
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-        // สร้าง Scanner สำหรับรับข้อมูลจากผู้ใช้
-        Scanner scanner = new Scanner(System.in);
+        // รับชื่อ (รองรับชื่อที่มีเว้นวรรค)
+        String nameInput = sc.nextLine();
 
-        // รับชื่อและอายุจากคีย์บอร์ด
-        String inputName = scanner.nextLine();
-        int inputAge = scanner.nextInt();
+        // รับอายุ
+        int ageInput = sc.nextInt();
 
-        // สร้าง object ของ Dog
+        // สร้างออบเจ็กต์ Dog
         Dog dog = new Dog();
 
-        // กำหนดค่าชื่อและอายุผ่าน method ของคลาสแม่
-        dog.setInfo(inputName, inputAge);
+        // กำหนดค่าให้ attribute ที่สืบทอดจาก Animal โดยตรง
+        dog.name = nameInput;
+        dog.age = ageInput;
 
-        // เรียกใช้งาน method ตามลำดับที่โจทย์กำหนด
+        // เรียกเมธอดตามลำดับที่โจทย์กำหนด
         dog.makeSound();
         dog.displayInfo();
 
-        // ปิด Scanner
-        scanner.close();
+        sc.close();
     }
 }
