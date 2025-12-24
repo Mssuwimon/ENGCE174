@@ -5,30 +5,21 @@ class Animal {
     protected String name;
     protected int age;
 
-    // Constructor
-    public Animal(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-
-    public void displayInfo() {
-        System.out.println("Name: " + name + ", Age: " + age);
-    }
-
+    // เมธอดสำหรับ Override
     public void makeSound() {
         System.out.println("I am an animal.");
+    }
+
+    // แสดงข้อมูล
+    public void displayInfo() {
+        System.out.println("Name: " + name + ", Age: " + age);
     }
 }
 
 // Subclass
 class Cat extends Animal {
 
-    // Constructor ของ Cat
-    public Cat(String name, int age) {
-        super(name, age);
-    }
-
-    // Override method
+    // Override เมธอด makeSound()
     @Override
     public void makeSound() {
         System.out.println("Meow!");
@@ -38,17 +29,25 @@ class Cat extends Animal {
 // Main class
 public class Main {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-        Scanner scanner = new Scanner(System.in);
+        // รับชื่อ 
+        String inputName = sc.nextLine();
 
-        String name = scanner.nextLine();
-        int age = scanner.nextInt();
+        // รับอายุ
+        int inputAge = sc.nextInt();
 
-        Cat myCat = new Cat(name, age);
+        // สร้างออบเจ็กต์ Cat
+        Cat cat = new Cat();
 
-        myCat.displayInfo();
-        myCat.makeSound();
+        // กำหนดค่า attribute ที่สืบทอดมา
+        cat.name = inputName;
+        cat.age = inputAge;
 
-        scanner.close();
+        // เรียกเมธอดตามลำดับที่โจทย์กำหนด
+        cat.displayInfo();
+        cat.makeSound();
+
+        sc.close();
     }
 }
